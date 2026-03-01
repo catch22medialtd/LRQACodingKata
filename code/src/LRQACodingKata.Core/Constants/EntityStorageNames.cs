@@ -1,6 +1,6 @@
 ﻿namespace LRQACodingKata.Core.Constants
 {
-    public static class EntityPropertyNames
+    public static class EntityStorageNames
     {
         public const string Products = "Products";
     }
