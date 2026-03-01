@@ -1,23 +1,22 @@
-version: '3.8'
-
 services:
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: lrqa-sqlserver
+  lrqa-postgres:
+    image: postgres:latest
+    container_name: lrqa-postgres
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=${SA_PASSWORD}
-      - MSSQL_PID=${MSSQL_PID}
+      POSTGRES_DB: ${POSTGRES_DBNAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "${SQL_PORT}:1433"
+      - "${POSTGRES_PORT}:5432"
     volumes:
-      - sqlserver_data:/var/opt/mssql
+      - lrqa_postgres_data:/var/lib/postgresql
     healthcheck:
-      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DBNAME}"]
       interval: 10s
-      timeout: 3s
+      timeout: 5s
       retries: 10
-      start_period: 10s
+      start_period: 5s
+    restart: unless-stopped
 
 volumes:
-  sqlserver_data:
+  lrqa_postgres_data:

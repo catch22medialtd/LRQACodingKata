@@ -1,5 +1,6 @@
 ﻿using LRQACodingKata.Application.Options;
 using LRQACodingKata.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -17,6 +18,9 @@ namespace LRQACodingKata.Infrastructure
             services.AddDbContext<AppDbContext>((sp, options) =>
             {
                 var databaseOptions = sp.GetRequiredService<IOptions<DatabaseOptions>>().Value;
+
+                options.UseNpgsql(databaseOptions.DefaultConnection);
+                options.UseSnakeCaseNamingConvention();
             });
 
             return services;
