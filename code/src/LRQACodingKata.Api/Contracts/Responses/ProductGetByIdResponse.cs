@@ -3,13 +3,13 @@ using LRQACodingKata.Application.Features.Product.Queries;
 
 namespace LRQACodingKata.Api.Contracts.Responses
 {
-    public class ProductGetByIdQueryResponse
+    public class ProductGetByIdResponse
     {
         public ProductDto Product { get; set; } = null!;
 
-        public static ProductGetByIdQueryResponse From(ProductGetByIdQueryResult result)
+        public static ProductGetByIdResponse From(ProductGetByIdQueryResult result)
         {
-            return new ProductGetByIdQueryResponse
+            return new ProductGetByIdResponse
             {
                 Product = result.Product
             };
