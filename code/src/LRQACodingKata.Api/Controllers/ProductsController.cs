@@ -57,7 +57,19 @@ namespace LRQACodingKata.Api.Controllers
         public async Task<IActionResult> Update(int id, [FromBody] ProductUpdateRequest request)
         {
             var command = new ProductUpdateCommand(id, request.Name, request.Price, request.Stock);
-            
+
+            await Mediator.Send(command);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var command = new ProductDeleteCommand(id);
+
             await Mediator.Send(command);
 
             return NoContent();
