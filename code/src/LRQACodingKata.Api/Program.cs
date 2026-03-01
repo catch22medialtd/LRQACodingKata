@@ -1,4 +1,5 @@
 using LRQACodingKata.Api.Extensions;
+using LRQACodingKata.Api.Filters;
 using LRQACodingKata.Application.Options;
 using LRQACodingKata.Infrastructure;
 
@@ -34,7 +35,7 @@ builder.Services.AddMediatR(cfg =>
 
 builder.Services.AddControllers(options =>
 {
-    //options.Filters.Add<GlobalExceptionFilter>();
+    options.Filters.Add<GlobalExceptionFilter>();
 });
 
 builder.Services.AddEndpointsApiExplorer();
