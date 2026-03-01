@@ -20,5 +20,17 @@ namespace LRQACodingKata.Api.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(ProductGetByIdQueryResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ProductGetByIdQueryResponse>> GetById(int id)
+        {
+            var query = new ProductGetByIdQuery(id);
+            var result = await Mediator.Send(query);
+
+            return Ok(ProductGetByIdQueryResponse.From(result.Value!));
+        }
     }
 }
