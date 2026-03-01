@@ -25,6 +25,13 @@ builder.Services.Configure<DatabaseOptions>(options =>
 // Add Infrastructure services
 builder.Services.AddInfrastructure(builder.Configuration);
 
+// MediatR
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly);
+    //cfg.AddOpenBehavior(typeof(ValidationBehaviour<,>));
+});
+
 builder.Services.AddControllers(options =>
 {
     //options.Filters.Add<GlobalExceptionFilter>();

@@ -16,8 +16,9 @@ namespace LRQACodingKata.Api.Controllers
         {
             var query = new ProductGetListQuery();
             var result = await Mediator.Send(query);
- 
-            return Ok(result);
+            var response = ProductGetListQueryResponse.From(result.Value!);
+
+            return Ok(response);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using LRQACodingKata.Application.Options;
+using LRQACodingKata.Core.Repositories;
 using LRQACodingKata.Infrastructure.Data.Context;
+using LRQACodingKata.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +13,8 @@ namespace LRQACodingKata.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
             => services
-            .AddDatabase();
+            .AddDatabase()
+            .AddRepositories();
 
         public static IServiceCollection AddDatabase(this IServiceCollection services)
         {
@@ -22,6 +25,15 @@ namespace LRQACodingKata.Infrastructure
                 options.UseNpgsql(databaseOptions.DefaultConnection);
                 options.UseSnakeCaseNamingConvention();
             });
+
+            services.AddScoped<DbContext>(sp => sp.GetRequiredService<AppDbContext>());
+
+            return services;
+        }
+
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped(typeof(IRepository<>), typeof(EfCoreRepository<>));
 
             return services;
         }
