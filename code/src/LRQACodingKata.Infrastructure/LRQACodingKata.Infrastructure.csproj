@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LRQACodingKata.Application\LRQACodingKata.Application.csproj" />
     <ProjectReference Include="..\LRQACodingKata.Core\LRQACodingKata.Core.csproj" />
   </ItemGroup>
 
