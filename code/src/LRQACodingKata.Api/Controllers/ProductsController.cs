@@ -48,5 +48,19 @@ namespace LRQACodingKata.Api.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = response.Product.Id }, response);
         }
+
+        [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Update(int id, [FromBody] ProductUpdateRequest request)
+        {
+            var command = new ProductUpdateCommand(id, request.Name, request.Price, request.Stock);
+            
+            await Mediator.Send(command);
+
+            return NoContent();
+        }
     }
 }
