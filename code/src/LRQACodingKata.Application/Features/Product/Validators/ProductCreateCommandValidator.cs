@@ -1,7 +1,8 @@
 using FluentValidation;
+using LRQACodingKata.Application.Features.Product.Commands;
 using LRQACodingKata.Core.Constants;
 
-namespace LRQACodingKata.Application.Features.Product.Commands
+namespace LRQACodingKata.Application.Features.Product.Validators
 {
     public class ProductCreateCommandValidator : AbstractValidator<ProductCreateCommand>
     {
@@ -12,12 +13,10 @@ namespace LRQACodingKata.Application.Features.Product.Commands
                 .MaximumLength(EntityPropertyLengths.Product_Name);
 
             RuleFor(x => x.Price)
-                .GreaterThan(0)
-                .WithMessage("'{PropertyName}' must be greater than 0.");
+                 .InclusiveBetween(EntityPropertyRanges.Product_Price_Min, EntityPropertyRanges.Product_Price_Max);
 
             RuleFor(x => x.Stock)
-                .GreaterThanOrEqualTo(0)
-                .WithMessage("'{PropertyName}' must be greater than or equal to 0.");
+                .InclusiveBetween(EntityPropertyRanges.Product_Stock_Min, EntityPropertyRanges.Product_Stock_Max);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace LRQACodingKata.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ProductGetListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ProductGetListResponse>> Get()
+        public async Task<ActionResult<ProductGetListResponse>> GetProducts()
         {
             var query = new ProductGetListQuery();
             var result = await Mediator.Send(query);
@@ -27,7 +27,7 @@ namespace LRQACodingKata.Api.Controllers
         [ProducesResponseType(typeof(ProductGetByIdResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ProductGetByIdResponse>> GetById(int id)
+        public async Task<ActionResult<ProductGetByIdResponse>> GetProduct(int id)
         {
             var query = new ProductGetByIdQuery(id);
             var result = await Mediator.Send(query);
@@ -40,13 +40,13 @@ namespace LRQACodingKata.Api.Controllers
         [ProducesResponseType(typeof(ProductCreateResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ProductCreateResponse>> Create([FromBody] ProductCreateRequest request)
+        public async Task<ActionResult<ProductCreateResponse>> CreateProduct([FromBody] ProductCreateRequest request)
         {
             var command = new ProductCreateCommand(request.Name, request.Price, request.Stock);
             var result = await Mediator.Send(command);
             var response = ProductCreateResponse.From(result.Value!);
 
-            return CreatedAtAction(nameof(GetById), new { id = response.Product.Id }, response);
+            return CreatedAtAction(nameof(GetProduct), new { id = response.Product.Id }, response);
         }
 
         [HttpPut("{id:int}")]
@@ -54,7 +54,7 @@ namespace LRQACodingKata.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Update(int id, [FromBody] ProductUpdateRequest request)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductUpdateRequest request)
         {
             var command = new ProductUpdateCommand(id, request.Name, request.Price, request.Stock);
 
@@ -66,7 +66,7 @@ namespace LRQACodingKata.Api.Controllers
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
             var command = new ProductDeleteCommand(id);
 
