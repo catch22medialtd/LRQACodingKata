@@ -13,7 +13,7 @@ internal class Program
         // Load configuration
         builder.Configuration.AddApplicationSettings(builder.Environment, args);
 
-        // Add Infrastructure services
+        // Add Application and Infrastructure services
         builder.Services
             .AddApplication(builder.Configuration)
             .AddInfrastructure(builder.Configuration);
