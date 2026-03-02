@@ -3,6 +3,7 @@ using LRQACodingKata.Api.Filters;
 using LRQACodingKata.Application;
 using LRQACodingKata.Application.Behaviours;
 using LRQACodingKata.Infrastructure;
+using MediatR;
 
 internal class Program
 {
@@ -23,6 +24,7 @@ internal class Program
         {
             cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly);
             cfg.AddOpenBehavior(typeof(ValidationBehaviour<,>));
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         });
 
         builder.Services.AddControllers(options =>
