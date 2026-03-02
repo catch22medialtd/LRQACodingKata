@@ -8,32 +8,32 @@ namespace LRQACodingKata.Infrastructure.Data.Repositories
     {
         private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
+        public async Task<IEnumerable<TResult>> GetAllProjectedAsync<TResult>(
+            Expression<Func<TEntity, TResult>> selector,
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>>? orderBy = null,
+            CancellationToken cancellationToken = default)
+        {
+            var query = _dbSet
+                .AsNoTracking()
+                .Select(selector);
+
+            if (orderBy is not null)
+            {
+                query = orderBy(query);
+            }
+
+            return await query.ToListAsync(cancellationToken);
+        }
+
         public async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             return await _dbSet.FindAsync([id], cancellationToken);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
-        {
-            return await _dbSet
-                .AsNoTracking()
-                .ToListAsync(cancellationToken);
-        }
-
-        public async Task<IEnumerable<TResult>> GetAllProjectedAsync<TResult>(
-            Expression<Func<TEntity, TResult>> selector,
-            CancellationToken cancellationToken = default)
-        {
-            return await _dbSet
-                .AsNoTracking()
-                .Select(selector)
-                .ToListAsync(cancellationToken);
-        }
-
         public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             await _dbSet.AddAsync(entity, cancellationToken);
-            
+
             return entity;
         }
 
