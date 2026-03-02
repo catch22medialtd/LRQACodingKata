@@ -43,4 +43,4 @@ This is a Products API created as part of a coding kata exercise.
 
 ## Assumptions
 - Duplicate products are allowed (multiple products can have the same name)
-- Product updates require all fields to be sent in the request (full object replacement, not partial updates)
+- Product updates replace the entire entity - all fields must be provided in the request, even if unchanged
