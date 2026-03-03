@@ -9,12 +9,12 @@ namespace LRQACodingKata.UnitTests.Application.Features.Product.Queries
 {
     public class ProductGetByIdQueryHandlerTests
     {
-        private readonly IRepository<LRQACodingKata.Core.Entities.Product> _repository;
+        private readonly IRepository<Core.Entities.Product> _repository;
         private readonly ProductGetByIdQueryHandler _sut;
 
         public ProductGetByIdQueryHandlerTests()
         {
-            _repository = Substitute.For<IRepository<LRQACodingKata.Core.Entities.Product>>();
+            _repository = Substitute.For<IRepository<Core.Entities.Product>>();
             _sut = new ProductGetByIdQueryHandler(_repository);
         }
 
@@ -23,7 +23,7 @@ namespace LRQACodingKata.UnitTests.Application.Features.Product.Queries
         {
             // Arrange
             const int productId = 1;
-            var product = new LRQACodingKata.Core.Entities.Product
+            var product = new Core.Entities.Product
             {
                 Id = productId,
                 Name = "Test Product",
@@ -63,7 +63,7 @@ namespace LRQACodingKata.UnitTests.Application.Features.Product.Queries
 
             _repository
                 .GetByIdAsync(productId, cancellationToken)
-                .Returns((LRQACodingKata.Core.Entities.Product?)null);
+                .Returns((Core.Entities.Product?)null);
 
             // Act
             var act = async () => await _sut.Handle(query, cancellationToken);
@@ -78,7 +78,7 @@ namespace LRQACodingKata.UnitTests.Application.Features.Product.Queries
         {
             // Arrange
             const int productId = 42;
-            var product = new LRQACodingKata.Core.Entities.Product
+            var product = new Core.Entities.Product
             {
                 Id = productId,
                 Name = "Test Product",
@@ -105,7 +105,7 @@ namespace LRQACodingKata.UnitTests.Application.Features.Product.Queries
         {
             // Arrange
             const int productId = 123;
-            var product = new LRQACodingKata.Core.Entities.Product
+            var product = new Core.Entities.Product
             {
                 Id = productId,
                 Name = "Complex Product Name",
@@ -142,7 +142,7 @@ namespace LRQACodingKata.UnitTests.Application.Features.Product.Queries
 
             _repository
                 .GetByIdAsync(invalidId, cancellationToken)
-                .Returns((LRQACodingKata.Core.Entities.Product?)null);
+                .Returns((Core.Entities.Product?)null);
 
             // Act
             var act = async () => await _sut.Handle(query, cancellationToken);
@@ -157,7 +157,7 @@ namespace LRQACodingKata.UnitTests.Application.Features.Product.Queries
         {
             // Arrange
             const int productId = 1;
-            var product = new LRQACodingKata.Core.Entities.Product
+            var product = new Core.Entities.Product
             {
                 Id = productId,
                 Name = "Test Product",
@@ -184,7 +184,7 @@ namespace LRQACodingKata.UnitTests.Application.Features.Product.Queries
         {
             // Arrange
             const int productId = 1;
-            var product = new LRQACodingKata.Core.Entities.Product
+            var product = new Core.Entities.Product
             {
                 Id = productId,
                 Name = "Out of Stock Product",
@@ -212,7 +212,7 @@ namespace LRQACodingKata.UnitTests.Application.Features.Product.Queries
         {
             // Arrange
             const int productId = 1;
-            var product = new LRQACodingKata.Core.Entities.Product
+            var product = new Core.Entities.Product
             {
                 Id = productId,
                 Name = "Cheap Product",
